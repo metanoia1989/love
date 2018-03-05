@@ -1,0 +1,17 @@
+{
+  "name": "love",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Automattic/_s",
+  "author": "metanoia <sogaxili@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "prismjs": "^1.11.0"
+  }
+}

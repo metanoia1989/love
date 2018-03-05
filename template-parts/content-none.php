@@ -11,7 +11,7 @@
 
 <section class="no-results not-found">
 	<header class="page-header">
-		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', '_s' ); ?></h1>
+		<h1 class="page-title"><?php esc_html_e( '没有找到任何内容', '_love' ); ?></h1>
 	</header><!-- .page-header -->
 
 	<div class="page-content">
@@ -22,7 +22,7 @@
 				printf(
 					wp_kses(
 						/* translators: 1: link to WP admin new post page. */
-						__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', '_s' ),
+						__( '阅读你发布的第一篇文章? <a href="%1$s">让我们开始吧</a>.', '_love' ),
 						array(
 							'a' => array(
 								'href' => array(),
@@ -35,13 +35,13 @@
 
 		<?php elseif ( is_search() ) : ?>
 
-			<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', '_s' ); ?></p>
+			<p><?php esc_html_e( '对不起，没有找到你要搜索的关键词，请输入其他的关键词！', '_love' ); ?></p>
 			<?php
 				get_search_form();
 
 		else : ?>
 
-			<p><?php esc_html_e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', '_s' ); ?></p>
+			<p><?php esc_html_e( '看看我们能帮你找到什么，搜索能起到作用', '_love' ); ?></p>
 			<?php
 				get_search_form();
 

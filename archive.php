@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
+	<div id="primary" class="content-area col-md-8 col-sm-12">
 		<main id="main" class="site-main">
 
 		<?php
@@ -17,8 +17,8 @@ get_header(); ?>
 
 			<header class="page-header">
 				<?php
-					the_archive_title( '<h1 class="page-title">', '</h1>' );
-					the_archive_description( '<div class="archive-description">', '</div>' );
+					//the_archive_title( '<h1 class="page-title">', '</h1>' );
+					//the_archive_description( '<div class="archive-description">', '</div>' );
 				?>
 			</header><!-- .page-header -->
 
@@ -35,7 +35,11 @@ get_header(); ?>
 
 			endwhile;
 
-			the_posts_navigation();
+            the_posts_pagination([
+                'mid_size' => 2,
+                'prev_text' => __( '上一页', 'textdomain' ),
+                'next_text' => __( '下一页', 'textdomain' ),
+            ]);
 
 		else :
 

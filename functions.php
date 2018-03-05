@@ -7,7 +7,7 @@
  * @package _s
  */
 
-if ( ! function_exists( '_s_setup' ) ) :
+if ( ! function_exists( 'love_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -15,14 +15,14 @@ if ( ! function_exists( '_s_setup' ) ) :
 	 * runs before the init hook. The init hook is too late for some features, such
 	 * as indicating support for post thumbnails.
 	 */
-	function _s_setup() {
+	function love_setup() {
 		/*
 		 * Make theme available for translation.
 		 * Translations can be filed in the /languages/ directory.
 		 * If you're building a theme based on _s, use a find and replace
-		 * to change '_s' to the name of your theme in all the template files.
+		 * to change '_love' to the name of your theme in all the template files.
 		 */
-		load_theme_textdomain( '_s', get_template_directory() . '/languages' );
+		load_theme_textdomain( '_love', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -44,7 +44,8 @@ if ( ! function_exists( '_s_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', '_s' ),
+			'top-menu' => esc_html__( '顶部菜单', '_love' ),
+			'left-menu' => esc_html__( '左侧菜单', '_love' ),
 		) );
 
 		/*
@@ -60,7 +61,7 @@ if ( ! function_exists( '_s_setup' ) ) :
 		) );
 
 		// Set up the WordPress core custom background feature.
-		add_theme_support( 'custom-background', apply_filters( '_s_custom_background_args', array(
+		add_theme_support( 'custom-background', apply_filters( 'love_custom_background_args', array(
 			'default-color' => 'ffffff',
 			'default-image' => '',
 		) ) );
@@ -81,7 +82,7 @@ if ( ! function_exists( '_s_setup' ) ) :
 		) );
 	}
 endif;
-add_action( 'after_setup_theme', '_s_setup' );
+add_action( 'after_setup_theme', 'love_setup' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -90,44 +91,54 @@ add_action( 'after_setup_theme', '_s_setup' );
  *
  * @global int $content_width
  */
-function _s_content_width() {
-	$GLOBALS['content_width'] = apply_filters( '_s_content_width', 640 );
+function love_content_width() {
+	$GLOBALS['content_width'] = apply_filters( 'love_content_width', 640 );
 }
-add_action( 'after_setup_theme', '_s_content_width', 0 );
+add_action( 'after_setup_theme', 'love_content_width', 0 );
 
 /**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function _s_widgets_init() {
+function love_widgets_init() {
 	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', '_s' ),
-		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', '_s' ),
+		'name'          => esc_html__( 'Sidebar', '_love' ),
+		'id'            => 'sidebar-primary',
+		'description'   => esc_html__( '添加侧边栏小工具', '_love' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
 }
-add_action( 'widgets_init', '_s_widgets_init' );
+add_action( 'widgets_init', 'love_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
-function _s_scripts() {
-	wp_enqueue_style( '_s-style', get_stylesheet_uri() );
+function love_scripts() {
+	//wp_enqueue_style( 'love-style', get_stylesheet_uri() );
+	//wp_enqueue_style( 'bootstrap', get_template_directory_uri().'/css/bootstrap.css' );
+	wp_enqueue_style( 'theme', get_template_directory_uri().'/css/theme.css' );
+	wp_enqueue_style( 'prism-css', get_template_directory_uri().'/css/prism-okaidia.css' );
 
-	wp_enqueue_script( '_s-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
-
-	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script( 'popper', get_template_directory_uri().'/js/popper.js', [], '4.0', true );
+	wp_enqueue_script( 'bootstarp', get_template_directory_uri().'/js/bootstrap.js', ['jquery'], '4.0', true );
+	wp_enqueue_script( 'love-navigation', get_template_directory_uri().'/js/navigation.js', array(), '20151215', true );
+	wp_enqueue_script( 'love-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	wp_enqueue_script( 'love-script', get_template_directory_uri().'/js/script.js', ['jquery'], '1.0', true );
+	wp_enqueue_script( 'prism-js', get_template_directory_uri().'/js/prism.js', ['jquery'], '1.0', true );
+	wp_enqueue_script( 'prism-php-js', get_template_directory_uri().'/js/prism-php.min.js', ['jquery'], '1.0', true );
+	wp_enqueue_script( 'prism-css-js', get_template_directory_uri().'/js/prism-css.min.js', ['jquery'], '1.0', true );
+	wp_enqueue_script( 'prism-bash-js', get_template_directory_uri().'/js/prism-bash.min.js', ['jquery'], '1.0', true );
+	wp_enqueue_script( 'prism-markup-js', get_template_directory_uri().'/js/prism-markup.min.js', ['jquery'], '1.0', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
-add_action( 'wp_enqueue_scripts', '_s_scripts' );
+add_action( 'wp_enqueue_scripts', 'love_scripts' );
 
 /**
  * Implement the Custom Header feature.
@@ -162,3 +173,64 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 }
+
+if ( file_exists( get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php' ) ) {
+    require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
+}
+
+//缓存Gravatar头像
+function cache_avatar($avatar, $id_or_email, $size, $default, $alt)
+{
+    $avatar = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $avatar);
+    $tmp = strpos($avatar, 'http');
+    $url = get_avatar_url( $id_or_email, $size ) ;
+    $url = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $url);
+    $avatar2x = get_avatar_url( $id_or_email, ( $size * 2 ) ) ;
+    $avatar2x = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $avatar2x);
+    $g = substr($avatar, $tmp, strpos($avatar, "'", $tmp) - $tmp);
+    $tmp = strpos($g, 'avatar/') + 7;
+    $f = substr($g, $tmp, strpos($g, "?", $tmp) - $tmp);
+    $w = home_url();
+    $e = ABSPATH .'avatar/'. $size . '*'. $f .'.jpg';
+    $e2x = ABSPATH .'avatar/'. ( $size * 2 ) . '*'. $f .'.jpg';
+    $t = 1209600; 
+    if ( (!is_file($e) || (time() - filemtime($e)) > $t) && (!is_file($e2x) || (time() - filemtime($e2x)) > $t ) ) { 
+        copy(htmlspecialchars_decode($g), $e);
+        copy(htmlspecialchars_decode($avatar2x), $e2x);
+    } else { $avatar = $w.'/avatar/'. $size . '*'.$f.'.jpg';
+        $avatar2x = $w.'/avatar/'. ( $size * 2) . '*'.$f.'.jpg';
+        if (filesize($e) < 1000) copy($w.'/avatar/default.jpg', $e);
+        if (filesize($e2x) < 1000) copy($w.'/avatar/default.jpg', $e2x);
+        $avatar = "<img alt='{$alt}' src='{$avatar}' srcset='{$avatar2x}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+    }
+    return $avatar;
+}
+add_filter('get_avatar', 'cache_avatar',1,5);
+
+
+/**
+ * 自定义markdown类型文章
+ */
+function my_custom_init() {
+    add_post_type_support( 'custom-post-type', 'wpcom-markdown' );
+}
+add_action('init', 'my_custom_init');
+
+/**
+ * 添加prism的按钮
+ */
+function appthemes_add_quicktags() {
+    if (wp_script_is('quicktags')){
+?>
+    <script type="text/javascript">
+    QTags.addButton( 'eg_hlAll', '*ALL', '<pre class="language-"><code class="language-">', '</code></pre>', 'h', 'defual highlight');
+    QTags.addButton( 'eg_hlHTML', '*HTML', '<pre class="language-markup"><code class="language-markup">', '</code></pre>', 'z', 'HTML highlight');
+    QTags.addButton( 'eg_hlPHP', '*PHP', '<pre class="language-php"><code class="language-php">', '</code></pre>', 'p', 'PHP highlight');
+    QTags.addButton( 'eg_hlCSS', '*CSS', '<pre class="language-css"><code class="language-css">', '</code></pre>', 'c', 'csshighlight');
+    QTags.addButton( 'eg_hlBASH', '*BASH', '<pre class="language-bash"><code class="language-bash">', '</code></pre>', 'b', 'bashhighlight');
+    QTags.addButton( 'eg_hlJava', '*Java', '<pre class="language-Java"><code class="language-Java">', '</code></pre>', 'h', 'Java highlight');
+    </script>
+<?php
+    }
+}
+add_action( 'admin_print_footer_scripts', 'appthemes_add_quicktags' );

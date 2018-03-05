@@ -6,12 +6,12 @@
  *
  * @package _s
  */
-
-if ( ! is_active_sidebar( 'sidebar-1' ) ) {
-	return;
-}
+    if ( !is_active_sidebar( 'sidebar-primary' ) ) : 
+        return;
+    endif; 
 ?>
 
-<aside id="secondary" class="widget-area">
-	<?php dynamic_sidebar( 'sidebar-1' ); ?>
-</aside><!-- #secondary -->
+
+<aside id="sidebar" class="widget-area col-md-3 col-sm-12">
+        <?php dynamic_sidebar( 'sidebar-primary' ); ?>
+</aside><!-- #sidebar -->

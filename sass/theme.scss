@@ -1,0 +1,284 @@
+@import 'bootstrap/bootstrap';
+
+/*--------------------------------------------------------------
+# 以下是自定义的主题
+--------------------------------------------------------------*/
+
+// 内容块居中
+@mixin center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+$header-color: #2A2730;
+$header-font-color: white;
+// $header-color: #627C83;
+// $header-hover-color: #9EBAA0;
+$header-hover-color: #40485E;
+$header-background: #FAFAFB;
+$border-color: #007BFF; 
+$span-color: #627C83; //标签浅色
+// $footer-background: #E7ECF0;
+$footer-background: $header-color;
+$footer-color: #999;
+
+$article-title: $header-color;
+$article-color: #34495e;
+$article-span: #7F8995;
+
+a:hover {
+    text-decoration: none;
+}
+
+
+html, body{
+    overflow:hidden;
+    overflow-y:auto;
+}
+
+
+/*--------------------------------------------------------------
+# 顶部导航栏
+--------------------------------------------------------------*/
+.site-header {
+    background-color: $header-background;
+    border-top: 5px solid $border-color;
+    // box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+    margin-bottom: 1.5rem;
+    padding: {
+        left: 0;
+        right: 0;
+    }
+    z-index: 9999;
+    position: relative;
+    // @extend .fixed-top;
+    
+    .site-branding  {
+        padding-left: 1.5rem;
+        .site-title {
+            a {
+                color: $header-color;
+                @include center-block();
+                @include hover-focus{
+                    color: $border-color;
+                    border-bottom: none;
+                    text-decoration: none;
+                }
+                min-width: 281px;
+            }
+        } 
+        .site-description{
+            //@include make-col-offset(1);
+            margin-left: 2.5rem;
+            @extend .small;
+            margin-top: 1rem;
+            margin-bottom: 0;
+            color: $header-color;
+            overflow: hidden;
+        } 
+    }
+
+    //导航栏
+    .main-navigation {
+        opacity: 0.95;
+        background-color: $header-color;
+        // box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+        .nav-link {
+            color: $header-font-color;
+            padding: 0.5rem 1.5rem;
+        }
+
+        &.navbar {
+            padding: 0;
+            text-align: left;
+        }
+
+        .container {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        ul {
+            border-bottom: none;
+            margin-left: 2rem;
+            // display: inline-black;
+
+            li.active {
+                // border-bottom-color: $border-color;
+                background-color: $header-hover-color;
+            }
+            li {
+                box-sizing: border-box;
+                padding-top: 3px;
+                padding-bottom: 3px;
+
+                @include hover-focus{
+                    background-color: $header-hover-color;
+                }
+                .nav-link:active {
+                }
+            }
+        }
+
+        .menu-item-has-children {
+            position: relative;
+        }
+        .dropdown-menu {
+            min-width: 100%;
+            right: 0;
+            left: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-left: 0;
+            top: 93%;
+            background-color: $header-color;
+            color: $header-font-color;
+            border-radius: 0%;
+            .dropdown-item {
+                color: $header-font-color;
+                text-align: center;
+                margin-left: 1px;
+                margin-right: 1px;
+                &:hover {
+                    background-color: $header-hover-color;
+                }
+            }
+        }
+    }
+}
+
+/*--------------------------------------------------------------
+# 文章列表及侧边栏
+--------------------------------------------------------------*/
+article.post {
+    @extend .card;
+    @extend .mb-4;
+    .entry-title, h1, h2 {
+        font-weight: 200;
+    }
+    .entry-title a {
+        color: $article-title;
+        position: relative;
+    }
+
+
+    span a {
+        color: $article-span;
+    }
+    @include hover-focus{
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1),
+                    -1px -1px 2px rgba(0, 0, 0, 0.1); 
+    }
+
+    p {
+        color: $article-color;   
+    }
+
+}
+
+.site-content {
+    @include make-container();
+    .content-area {
+        @extend .ml-4;
+    }
+    .widget-area {
+        @extend .ml-4;
+        .widget {
+            @extend .card;
+            @extend .mb-4;
+            flex: 1 1 auto;
+            padding: 1.25rem;
+            .widget-title {
+                font-size: 2rem;
+                font-weight: 100;
+            }
+            ul {
+                @extend .list-unstyled
+            }
+        }
+    }
+}
+
+/*--------------------------------------------------------------
+# 文章列表分页， 以及文章上下页
+--------------------------------------------------------------*/
+
+.pagination {
+    .screen-reader-text {
+        @include sr-only();
+    }
+
+    .current, a {
+        @extend .page-link;
+        display: inline;
+    }
+    
+    .current, .current:hover {
+        background-color: $header-hover-color;
+        color: $header-font-color;
+    }
+
+}
+
+.post-navigation {
+    .screen-reader-text {
+        @include sr-only();
+    }
+
+    padding-bottom: 2rem;
+}
+
+/*--------------------------------------------------------------
+# 评论
+--------------------------------------------------------------*/
+.comments-area {
+    textarea, input {
+        @extend .form-control;
+    }
+}
+
+
+/*-------------------------------------------------------------
+# 页脚
+--------------------------------------------------------------*/
+
+.site-footer {
+    background-color: $footer-background;
+    box-shadow: 1px 0 0 rgba(0,0,0,0.15);
+    margin-top: 1.5rem;
+    color: $footer-color;
+    a {
+        color: $footer-color;
+        text-decoration: none;
+        @include hover-focus {
+            color: white;
+        }
+    }
+    .site-info {
+        @include center-block;
+        text-align: center;
+    }
+}
+
+/*--------------------------------------------------------------
+# 评论列表
+--------------------------------------------------------------*/
+ul.comment-list {
+    padding-left: 0;
+}
+li.comment {
+    @extend .card;
+    @extend .mb-4;
+    article.comment-body {
+        @extend .card-body;
+    }
+}
+
+
+/*--------------------------------------------------------------
+# 响应式布局
+--------------------------------------------------------------*/
+
+@import 'media';
+@import 'page';

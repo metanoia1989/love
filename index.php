@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
+	<div id="primary" class="content-area col-md-8 col-sm-12">
 		<main id="main" class="site-main">
 
 		<?php
@@ -40,7 +40,14 @@ get_header(); ?>
 
 			endwhile;
 
-			the_posts_navigation();
+            // the_posts_navigation();
+            // pagination_bar();
+            the_posts_pagination([
+                'mid_size' => 2,
+                'prev_text' => __( '上一页', 'textdomain' ),
+                'next_text' => __( '下一页', 'textdomain' ),
+            ]);
+            // bootstrap_pagination();
 
 		else :
 

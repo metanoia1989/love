@@ -1,0 +1,45 @@
+@media screen and (min-width: 37.5em) {
+	.navbar-toggler, .navbar-brand {
+		display: none;
+    } 
+    
+}
+
+@media screen and (max-width: 37.5em) {
+    // 导航栏
+    .site-branding {
+        // margin: 0.5rem 2.5rem;
+        display: none;
+    }
+
+    .navbar-toggler, .navbar-brand {
+        color: white;
+        &:hover {
+            color: gray;
+        }
+    }
+
+    .navbar-brand {
+        padding-left: 1rem;
+    }
+
+    #navbar-container {
+        border-top: 1px solid snow;
+    }
+
+    #navbar-menu {
+        margin-left: 0;
+    }
+
+    // 内容栏
+    .widget-area {
+        margin-top: 2rem;
+        margin-left: 0;
+    }
+
+    #primary, #sidebar {
+        margin-left: 0 !important;
+    }
+
+}
+
