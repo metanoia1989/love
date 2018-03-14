@@ -24,6 +24,7 @@
                 <?php
                     love_posted_on();
                     love_posted_by();
+                    post_views(' ', ' 次');
                 ?>
             </div><!-- .entry-meta -->
             <?php

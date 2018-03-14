@@ -234,3 +234,130 @@ function appthemes_add_quicktags() {
     }
 }
 add_action( 'admin_print_footer_scripts', 'appthemes_add_quicktags' );
+
+/**
+ * 减少rest api 不必要的输出
+ */
+function dw_rest_prepare_post( $data, $post, $request ) {
+	$_data = $data->data;
+	$params = $request->get_params();
+    $postID = $post->ID;
+
+    //阅读数
+    $views = get_post_meta($postID, 'views', true);
+    if($views) $_data['views'] = $views;
+
+    //评论数
+    $comment_count = get_post_field('comment_count', $postID); 
+    if($comment_count) $_data['comment_count'] = $comment_count;
+
+    //过滤的输出字段
+    unset( $_data['author'] );
+    unset( $_data['guid'] );
+    unset( $_data['status'] );
+    unset( $_data['featured_media'] );
+    unset( $_data['format'] );
+    unset( $_data['ping_status'] );
+    unset( $_data['comment_status'] );
+    unset( $_data['sticky'] );
+    unset( $_data['template'] );
+
+	$data->data = $_data;
+	return $data;
+
+}
+add_filter( 'rest_prepare_post', 'dw_rest_prepare_post', 10, 3 );
+
+/**
+ * 输出文章数据 post meta
+ */
+// register_rest_field( 'post', 'metadata', array(
+//
+//      'get_callback' => function ( $data ) {
+//
+//          return get_post_meta( $data['id'], '', '' );
+//
+//  }, ));
+
+/**
+ * 添加文章访问次数
+ */
+/* 访问计数 */
+function record_visitors()
+{
+    if (is_singular())
+    {
+      global $post;
+	  $post_ID = $post->ID;
+	  if($post_ID)
+      {
+          $post_views = (int)get_post_meta($post_ID, 'views', true);
+          if(!update_post_meta($post_ID, 'views', ($post_views+1)))
+          {
+            add_post_meta($post_ID, 'views', 1, true);
+          }
+      }
+    }
+}
+add_action('wp_head', 'record_visitors');
+/// 函数名称：post_views
+/// 函数作用：取得文章的阅读次数
+function post_views($before = '(点击 ', $after = ' 次)', $echo = 1)
+{
+  global $post;
+  $post_ID = $post->ID;
+  $views = (int)get_post_meta($post_ID, 'views', true);
+  if ($echo) echo $before, number_format($views), $after;
+  else return $views;
+}
+
+
+/**
+ * 为分类添加特色图片
+ */
+if ( file_exists( get_template_directory() . '/inc/categories-images.php' ) ) {
+    require_once get_template_directory() . '/inc/categories-images.php';
+}
+
+/**
+ * 定义rest api 的分类数据输出，其实我直接用人家定义好的api最好，免得写这么多的代码，浪费时间。
+ */
+function dw_rest_prepare_category( $data, $category, $request ) {
+	$_data = $data->data;
+    $term_id= $category->term_id;
+
+    $cateImg = z_taxonomy_image_url($term_id);
+
+    $_data['cate_img'] = $cateImg;
+
+    //阅读数
+    // $views = get_post_meta($category, 'views', true);
+    // if($views) $_data['views'] = $views;
+
+    //评论数
+    // $comment_count = get_post_field('comment_count', $category); 
+    // if($comment_count) $_data['comment_count'] = $comment_count;
+
+    //过滤的输出字段
+    unset( $_data['meta'] );
+    unset( $_data['taxonomy'] );
+
+	$data->data = $_data;
+	return $data;
+
+}
+add_filter( 'rest_prepare_category', 'dw_rest_prepare_category', 10, 3 );
+
+
+/**
+ * 添加自定义的rest api route
+ */
+//获取微信用户的openid
+if ( file_exists( get_template_directory() . '/inc/wx-openid.php' ) ) {
+    require_once get_template_directory() . '/inc/wx-openid.php';
+}
+
+//微信用户评论提交获取
+if ( file_exists( get_template_directory() . '/inc/wx-comments.php' ) ) {
+    require_once get_template_directory() . '/inc/wx-comments.php';
+}
